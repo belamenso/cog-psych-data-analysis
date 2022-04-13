@@ -32,14 +32,12 @@ def get_data(group, *, older):
 	assert isinstance(older, bool)
 	assert group in {'positive', 'negative', 'control'}
 
-	return [x for x in data if x['older'] == older and x['group'] == group]
-
-'''
-for b in {True, False}:
-	for g in {'positive', 'negative', 'control'}:
-		print(g, b, len(get_data(g, older=b)), sep='\t')
-'''
-
+	ret = [x for x in data if x['older'] == older and x['group'] == group]
+	if group == 'negative':
+		ret = [x for x in ret if x['emotion'] not in {'admiration', 'boredom', 'fatigue', 'joy'}]  # pride and interest are in my opinion ok here (Bartosz)
+	elif group == 'positive':
+		ret = [x for x in ret if x['emotion'] not in {'anger', 'boredom', 'disgust', 'fatigue', 'fear'}]
+	return ret
 
 experiment_colors = ["red", "blue", "green", "pink", "gray", "yellow", "brown", "black"]
 
