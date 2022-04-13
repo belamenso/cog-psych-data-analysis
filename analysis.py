@@ -1,4 +1,5 @@
 from pprint import pprint
+from collections import Counter
 
 with open('./data_1.csv') as f:
 	read_text = f.read()
@@ -53,4 +54,10 @@ def get_color_counts(group, *, older):
 for b in {True, False}:
 	for g in {'positive', 'negative', 'control'}:
 		print('older' if b else 'younger', g, get_color_counts(g, older=b), sep='\t')
+
+print()
+
+for b in {True, False}:
+	for g in {'positive', 'negative', 'control'}:
+		print('older' if b else 'younger', g, Counter(x['emotion'] for x in get_data(g, older=b)), sep='\t')
 
